@@ -8,8 +8,8 @@ The output is an XML file which can be uploaded to a server which should validat
 For responsive layouts, media querys are not used as they depend on the window size. This library applies classes with suffixes dependent on the parent element's size to blocks.
 
 
-Principles
-----------
+Structure
+---------
 
 A page consists of *blocks*. Blocks have a *type* and have attributes, are displayed and edited according to the current *layout definition* and type. An editor may hook into the core to allow in-place editing of the page.
 
