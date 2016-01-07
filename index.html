@@ -1,0 +1,210 @@
+<html>
+    <head>
+        <title>ResponsiveMarkup Test</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="libs/jquery/jquery.js"></script>
+        <script src="libs/responsivemarkup/responsivemarkup.js"></script>
+        <script src="libs/responsivemarkup/definition/default.js"></script>
+        <link rel="stylesheet" type="text/css" href="libs/responsivemarkup/definition/default.css">
+
+        <style>
+            body {
+                font-family: sans-serif;
+            }
+
+            .placeholder {
+                background:#ddd;
+            }
+
+            .editwrapper {
+                position:relative;
+            }
+
+            .editwrapper .edit {
+                position:absolute;
+                top:0;
+                right:0;
+                display:none;
+                z-index:10;
+                background:#ddd;
+            }
+
+            .editwrapper:hover {
+                outline:#ddd 2px solid;
+            }
+
+            .editwrapper:hover > .edit {
+                display:block;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="menu">
+            <ul>
+                <li><a href="#0" onclick="setmode(0);">View</a></li>
+                <li><a href="#1" onclick="setmode(1);">Edit (Simple mode)</a></li>
+                <li><a href="#2" onclick="setmode(2);">Edit (Extended mode)</a></li>
+            </ul>
+        </div>
+
+        <div id="test"></div>
+
+        <div id="attributesDialog" style="display: none;position:fixed;width:600px;height:600px;background:white;top:50%;left:50%;margin-top:-300px;margin-left:-300px;border:black 5px solid;">
+            <form id="form" name="form">
+
+            </form>
+            <button id="save">SAVE</button> <button id="save" onclick="jQuery('#attributesDialog').hide()">cancel</button>
+        </div>
+
+        <script>
+            jQuery.fn.serializeObject = function () {
+                var obj = {};
+
+                jQuery.each(this.serializeArray(), function (i, o) {
+                    var n = o.name,
+                            v = o.value;
+
+                    obj[n] = obj[n] === undefined ? v
+                            : jQuery.isArray(obj[n]) ? obj[n].concat(v)
+                            : [obj[n], v];
+                });
+
+                return obj;
+            };
+
+            ResponsiveMarkup.editor.blockwrapper = function (rendered, instance, data, blocktype, blockparam_def, blockparam, allowDelete) {
+                var wrapper = document.createElement("div");
+                wrapper.setAttribute("class", "editwrapper");
+
+                var edit = document.createElement("div");
+                edit.setAttribute("class", "edit");
+
+                var length = 0;
+                for (var p in blockparam_def) {
+                    length++;
+                }
+
+                if (length > 0) {
+                    var editlink = document.createElement("a");
+                    editlink.setAttribute("href", "#edit");
+                    editlink.appendChild(document.createTextNode("Edit"));
+                    (function (instance, data, blocktype, blockparam_def, blockparam) {
+                        editlink.addEventListener("click", function () {
+                            jQuery('#attributesDialog').show();
+
+                            var innerHTML = "";
+                            for (var p in blockparam_def) {
+                                innerHTML += '<input type="text" name="' + p + '" value="' + blockparam[p] + '" placeholder="' + p + ' (' + blockparam_def[p] + ')" style="width:100%;" />';
+                            }
+
+                            jQuery('#form').html(innerHTML);
+
+                            (function (instance, data, blocktype, blockparam_def, blockparam) {
+                                document.getElementById("save").onclick = function () {
+                                    var form = $('#form');
+                                    var params = form.serializeObject();
+
+                                    if (instance.editBlock(data, params)) {
+                                        document.getElementById("save").onclick = null;
+                                        jQuery('#attributesDialog').hide();
+                                    }
+                                    else {
+                                        alert("Invalid params!");
+                                    }
+
+                                };
+                            })(instance, data, blocktype, blockparam_def, blockparam);
+                        });
+                    })(instance, data, blocktype, blockparam_def, blockparam);
+                    edit.appendChild(editlink);
+
+                    edit.appendChild(document.createElement("br"));
+                }
+
+                if (allowDelete) {
+                    var removelink = document.createElement("a");
+                    removelink.setAttribute("href", "#remove");
+                    removelink.appendChild(document.createTextNode("Remove"));
+                    (function (instance, data) {
+                        removelink.addEventListener("click", function () {
+                            instance.removeBlock(data);
+                        });
+                    })(instance, data);
+                    edit.appendChild(removelink);
+                }
+
+                wrapper.appendChild(edit);
+                wrapper.appendChild(rendered);
+
+                return wrapper;
+            }
+            ResponsiveMarkup.editor.placeholder = function (instance, data, subblock, types) {
+                var placeholder = document.createElement("div");
+                placeholder.setAttribute("class", "placeholder");
+                for (var i = 0; i < types.length; i++) {
+                    var link = document.createElement("a");
+                    link.setAttribute("href", "#add");
+                    link.appendChild(document.createTextNode(types[i].type));
+                    (function (instance, data, subblock, type) {
+                        link.addEventListener("click", function () {
+                            jQuery('#attributesDialog').show();
+
+                            var innerHTML = "";
+                            for (var p in type.param) {
+                                innerHTML += '<input type="text" name="' + p + '" placeholder="' + p + ' (' + type.param[p] + ')" style="width:100%;" />';
+                            }
+
+                            jQuery('#form').html(innerHTML);
+
+                            (function (instance, data, subblock, type) {
+                                document.getElementById("save").onclick = function () {
+                                    var form = $('#form');
+                                    var params = form.serializeObject();
+
+                                    if (instance.addBlock(data, subblock, type.type, params)) {
+                                        document.getElementById("save").onclick = null;
+                                        jQuery('#attributesDialog').hide();
+                                    }
+                                    else {
+                                        alert("Invalid params!");
+                                    }
+
+                                };
+                            })(instance, data, subblock, type);
+                        });
+                    })(instance, data, subblock, types[i]);
+
+                    placeholder.appendChild(link);
+                    placeholder.appendChild(document.createElement("br"));
+                }
+                return placeholder;
+            }
+            // TODO edit html: render bug
+
+            var instance = null;
+            var xml;
+            jQuery.get("test.xml", function (r) {
+                xml = r;
+                
+                setmode(0);
+            });
+            
+            function setmode (mode) {
+                if (instance != null) {
+                    xml = instance.getData();
+                }
+                
+                var context = {
+                    img_url: "img/%ID%.jpg"
+                }
+
+                instance = new ResponsiveMarkup.create(jQuery("#test").get(0), xml, mode);
+                if (!instance.render(context))
+                    alert("Error!");
+            }
+        </script>
+
+
+    </body>
+</html>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<responsivemarkup
+    xmlns="http://bluetreehouse.de"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://bluetreehouse.de ./libs/responsivemarkup/definition/default.xsd"
+>
+    <section>
+        <title>Title</title>
+        <content>
+            <section>
+                <title>Title</title>
+                <content>
+                    <textblock>
+                        <strong>content</strong>
+                        <table>
+                            <tr>
+                                <th>th</th>
+                                <td>td</td>
+                            </tr>
+                        </table>
+                    </textblock>
+                    
+                    <row area-id="test">
+                        <column>
+                            <title>Title</title>
+                            <content>
+                                <textblock>Hallo</textblock>
+                            </content>
+                        </column>
+                        <column>
+                            <title>Title</title>
+                            <content>
+                                <textblock>Hallo</textblock>
+                            </content>
+                        </column>
+                    </row>
+                </content>
+            </section>
+            <section>
+                <title>Title 2</title>
+                <content>
+                    <imageandtext>
+                        <image src="test" description="CC-BY-SA 2.0, (c) Martin Fisch, https://flic.kr/p/oaicc1" />
+                        <textblock>
+                            Test 1
+                        </textblock>
+                    </imageandtext>
+                    <imageandtext>
+                        <image src="test" description="CC-BY-SA 2.0, (c) Martin Fisch, https://flic.kr/p/oaicc1" />
+                        <textblock>
+                            Test 2
+                        </textblock>
+                    </imageandtext>
+                    <imageandtext>
+                        <image src="test" description="CC-BY-SA 2.0, (c) Martin Fisch, https://flic.kr/p/oaicc1" />
+                        <textblock>
+                            Test 3
+                        </textblock>
+                    </imageandtext>
+                </content>
+            </section>
+        </content>
+    </section>
+</responsivemarkup>

@@ -1,0 +1,119 @@
+.rm {
+    .textblock {
+        padding:1em 0;
+        
+    }
+    
+    .section {
+        padding:2em;
+        &.s,&.m {
+            h1,h2,h3,h4,h5,h6 {
+                font-weight:normal;
+            }
+        }
+    }
+    
+    .image {
+        position:relative;
+        img {
+            width:100%;
+        }
+        div {
+            font-size:0.9em;
+            position:absolute;
+            right:0;
+            bottom:0;
+            color:white;
+        }
+    }
+    
+    .imageandtext {
+        clear:both;
+        padding:1em 0;
+        
+        &:after {
+            content: ".";
+            clear: both;
+            display: block;
+            visibility: hidden;
+            height: 0px;
+        }
+        
+        div.img {
+            overflow:hidden;
+            
+            .image {
+                height:100%;
+            }
+            
+            
+            width:30%;
+            float:left;
+            height:15rem;
+        }
+        
+        div.content {
+            width:70%;
+            float:left;
+            padding:0 1em;
+        }
+        
+        &.c1 {
+            div.img {
+                position:relative;
+                left:70%;
+            }
+            div.content {
+                position:relative;
+                right:30%;
+            }
+        }
+    }
+    
+    .row {
+        clear:both;
+        
+        &:after {
+            content: ".";
+            clear: both;
+            display: block;
+            visibility: hidden;
+            height: 0px;
+        }
+        
+        .column {
+            h1,h2,h3,h4,h5,h6 {
+                color:#555;
+            }
+        }
+        
+        &.colcount-1 .column-wrapper {
+            width:100%;
+            float:left;
+            padding:0 1em;
+        }
+        
+        &.colcount-2 .column-wrapper {
+            width:50%;
+            float:left;
+            padding:0 1em;
+        }
+        
+        &.colcount-3 .column-wrapper {
+            width:33%;
+            float:left;
+            padding:0 1em;
+        }
+        
+        &.colcount-4 .column-wrapper {
+            width:25%;
+            float:left;
+            padding:0 1em;
+        }
+    }
+    
+    * {
+        box-sizing:border-box;
+    }
+}
+
