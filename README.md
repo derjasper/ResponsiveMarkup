@@ -16,7 +16,7 @@ A page consists of *blocks*. Blocks have a *type* and have attributes, are displ
 Three modes are supported: View, simple edit and extended edit.
 
 * View: display
-* simple edit: only blocks specifying an area using the `area-id` and their children can be edited
+* simple edit: Only blocks specifying an area using the `area-id` and their children can be edited. This allows defining templates which cannot be messed up by the user.
 * extended edit: no restrictions
 
 
