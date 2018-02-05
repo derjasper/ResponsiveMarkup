@@ -38,7 +38,7 @@ See it in action at http://derjasper.github.io/ResponsiveMarkup/
 Questions?
 ----------
 
-I released this library because I thought it may be useful to someone. It is no longer actively developed until I have a new use case in one of my projects (this library was used in an Angular 1 app and it worked quite well). Sadly, this code lacks documentation. If you have any questions, feel free to contact me at jasper@bluetreehouse.de.
+I released this library because I thought it may be useful to someone. It is no longer actively developed until I have a new use case in one of my projects (this library was used in an Angular 1 app and it worked quite well). Sadly, this code lacks documentation. If you have any questions, feel free to contact me (see my website http://jaspernalbach.com/).
 
 
 License
